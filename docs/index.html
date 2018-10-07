@@ -57,7 +57,7 @@
             <div v-if="search != ''">
               <ul v-if="loaded" class="list-unstyled">
                 <li v-for="(values, key) in stringtable" v-if="check(key, values)">
-                  <a v-on:click="select(key, values)">{{key}}</a>
+                  <a style="cursor:pointer" v-on:click="select(key, values)">{{key}}</a>
                 </li>
               </ul>
             </div>
@@ -126,7 +126,6 @@
         created: function(){
           let vm = this;
           $.getJSON('stringtable.json', function(json) {
-            console.log("json",json);
             vm.stringtable = json;
             vm.loaded = true;
           });
