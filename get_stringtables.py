@@ -40,7 +40,8 @@ arma3pbos = [
     "Tacops/Addons/language_f_tacops",
     "Tacops/Addons/languagemissions_f_tacops",
     "Tank/Addons/language_f_tank",
-    "Tank/Addons/languagemissions_f_tank"
+    "Tank/Addons/languagemissions_f_tank",
+    "dta/languagecore_f"
 ]
 
 import sys
