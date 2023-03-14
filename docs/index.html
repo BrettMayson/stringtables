@@ -49,17 +49,17 @@
         <div id="app" class="col-lg-12 text-center">
           <div class="col-lg-4 col-centered">
             <div class="input-group mb-1">
-              <input v-model="search_buf" v-on:keyup.enter="search = search_buf" type="text" class="form-control">
+              <input v-model="search_buf" v-on:keyup.enter="doSearch" type="text" class="form-control">
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" v-on:click="search = search_buf">Search</button>
+                <button class="btn btn-outline-secondary" type="button" v-on:click="doSearch">Search</button>
               </div>
             </div>
           </div>
           <p v-if="!loaded">Loading Values</p>
           <div v-else>
             <div v-if="search != ''">
-              <ul v-if="loaded" class="list-unstyled">
-                <li v-for="(values, key) in stringtable" v-if="check(key, values)">
+              <ul class="list-unstyled">
+                <li v-for="(values, key) in stringTableFiltered">
                   <a style="cursor:pointer" v-on:click="select(key, values)">{{key}}</a>
                 </li>
               </ul>
@@ -104,6 +104,7 @@
         el: '#app',
         data: {
           stringtable: {},
+          stringTableFiltered: {},
           loaded: false,
           search: "",
           search_buf: "",
@@ -111,7 +112,15 @@
           selected_values: {},
         },
         methods: {
-          check: function(key, values) {
+          doSearch: function() {
+            this.search = this.search_buf;
+
+            this.stringTableFiltered = Object.keys(this.stringtable)
+              .filter((key) => this.checkStringtableElement(key, this.stringtable[key]))
+              .reduce((cur, key) => { return Object.assign(cur, { [key]: this.stringtable[key] })}, {})
+            ;
+          },
+          checkStringtableElement: function(key, values) {
             if (key.toLowerCase().includes(this.search.toLowerCase())) {
               return true;
             }
